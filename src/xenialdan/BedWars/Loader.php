@@ -2,9 +2,9 @@
 
 namespace xenialdan\BedWars;
 
-use muqsit\invmenu\inventories\BaseFakeInventory;
-use muqsit\invmenu\InvMenu;
-use muqsit\invmenu\InvMenuHandler;
+use xenialdan\muqsit\invmenu\inventories\BaseFakeInventory;
+use xenialdan\muqsit\invmenu\InvMenu;
+use xenialdan\muqsit\invmenu\InvMenuHandler;
 use pocketmine\block\BlockIds;
 use pocketmine\entity\Entity;
 use pocketmine\entity\object\ItemEntity;
@@ -38,11 +38,13 @@ use xenialdan\gameapi\API;
 use xenialdan\gameapi\Arena;
 use xenialdan\gameapi\Game;
 use xenialdan\gameapi\Team;
+use pocketmine\command\CommandSender;
+use pocketmine\command\Command;
 
 class Loader extends Game
 {
-    const BRONZE = "Bronze";
-    const SILVER = "Silver";
+    const BRONZE = "Brick";
+    const SILVER = "Iron";
     const GOLD = "Gold";
 
     /** @var Loader */
@@ -272,11 +274,7 @@ class Loader extends Game
                                     $player->getInventory()->clearAll();
                                     $arena->getLevel()->stopTime();
                                     $arena->getLevel()->setTime(Level::TIME_DAY);
-                                    $item = ItemFactory::get(Item::SPAWN_EGG, Entity::VILLAGER, 64);
-                                    $item->setLore(["Use to spawn a villager shop", "Sneak and hit a villager to remove it", "Hit a villager to rotate him 45 degrees"]);
-                                    $item->setCustomName(TextFormat::GOLD . TextFormat::BOLD . "Shop");
-                                    $player->getInventory()->addItem($item);
-                                    $player->sendMessage(TextFormat::GOLD . "Use the spawn egg to add a villager. Sneak and hit a villager to remove it. Hit a villager to rotate him 45 degrees");
+                                    $player->sendMessage(TextFormat::GOLD . "Add Slapper AND Add Command /bwshop and use plugin BW-SHOP");
                                 });
                                 $player->sendForm($form);
                                 break;
@@ -452,6 +450,8 @@ class Loader extends Game
         return $entity instanceof ItemEntity || $entity instanceof PrimedTNT || $entity instanceof Arrow;
     }
 
+
+	
     public function openShop(Player $player)
     {
         $menu = InvMenu::create(InvMenu::TYPE_CHEST)->setName(TextFormat::RED . "Bed" . TextFormat::WHITE . "Wars " . TextFormat::RESET . "Shop")->readonly();
